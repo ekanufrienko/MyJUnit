@@ -1,6 +1,6 @@
 package com.rufus.myjunit.junit;
 
-public class Assert {
+public class Assert  {
     /**
      * @param condition булево значение, которое нужно проверить.
      * @throws AssertNotTrueError передано ложное значение.

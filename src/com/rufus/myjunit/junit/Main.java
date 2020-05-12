@@ -18,12 +18,9 @@ public class Main {
     /**
      * Список всех тестируемых методов.
      */
-    static final List<TestTask> testTasks = new ArrayList<>();
-    /**
-     * Очередь из индексов ещё не проверенных методов.
-     */
-    static final Deque<Integer> stackTasks = new ArrayDeque<>();
-    static boolean parseMethodsFinished = false;
+    static final Deque<TestTask> testTasks = new ArrayDeque<>();
+    volatile static boolean parseMethodsFinished = false;
+
 
     public static void main(String[] args) {
 
@@ -41,7 +38,6 @@ public class Main {
             parseMethodsFinished = true;
         }
 
-        //Здесь можно заново написать все результаты, только уже по порядку
     }
 
     /**
@@ -52,30 +48,29 @@ public class Main {
     public static void parseMethods(String className) {
         int classNumber;
 
-        try {
-            testClasses.add(new TestClass(Class.forName(className)));
-        } catch (ClassNotFoundException e) {
-            System.out.println("ClassNotFound");
-            return;
-        }
-
-        classNumber = testClasses.size() - 1;
-        Method[] methods = testClasses.get(classNumber).getClassItem().getMethods();
-        for (Method method : methods) {
-            if (method.getAnnotation(Before.class) != null) {
-                testClasses.get(classNumber).setBeforeMethod(method);
+        synchronized (testClasses) {
+            try {
+                testClasses.add(new TestClass(Class.forName(className)));
+            } catch (ClassNotFoundException e) {
+                System.out.println("ClassNotFound");
+                return;
             }
-            if (method.getAnnotation(After.class) != null) {
-                testClasses.get(classNumber).setAfterMethod(method);
-            }
-        }
 
-        for (Method method : methods) {
-            Test annotation = method.getAnnotation(Test.class);
-            if (annotation != null && method.getAnnotation(Ignore.class) == null) {
-                testTasks.add(new TestTask(classNumber, method, annotation.exp()));
-                synchronized (stackTasks){
-                    stackTasks.add(testTasks.size() - 1);
+            classNumber = testClasses.size() - 1;
+            Method[] methods = testClasses.get(classNumber).getClassItem().getMethods();
+            for (Method method : methods) {
+                if (method.getAnnotation(Before.class) != null) {
+                    testClasses.get(classNumber).setBeforeMethod(method);
+                }
+                if (method.getAnnotation(After.class) != null) {
+                    testClasses.get(classNumber).setAfterMethod(method);
+                }
+            }
+
+            for (Method method : methods) {
+                Test annotation = method.getAnnotation(Test.class);
+                if (annotation != null && method.getAnnotation(Ignore.class) == null) {
+                    testTasks.add(new TestTask(classNumber, method, annotation.expectedException()));
                 }
             }
         }
