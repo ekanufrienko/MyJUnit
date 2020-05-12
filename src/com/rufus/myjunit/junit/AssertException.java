@@ -1,5 +1,5 @@
 package com.rufus.myjunit.junit;
 
-public class AssertException extends Exception {
+public class AssertException extends Error {
 
 }

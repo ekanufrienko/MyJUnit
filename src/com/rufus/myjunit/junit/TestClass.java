@@ -9,6 +9,8 @@ public class TestClass {
 
     public void setClassItem(Class<?> classItem) {
         this.classItem = classItem;
+        this.afterMethod = null;
+        this.beforeMethod = null;
     }
 
     public TestClass(Class<?> classItem) {

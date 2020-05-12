@@ -10,36 +10,36 @@ public class TestClass {
     }
 
     @Test(expectedException = ArithmeticException.class)
-    public void SimpleTest_0() throws AssertNotTrueError {
+    public void SimpleTest_0() {
         int error = 1/0;
         Assert.assertTrue(1 == 2);
     }
 
     @Test
-    public void SimpleTest_1() throws AssertNotTrueError {
+    public void SimpleTest_1() {
         Assert.assertTrue(1 == 2);
     }
 
     @Test
-    public void SimpleTest_2() throws AssertNotEqualsError {
+    public void SimpleTest_2() {
         Assert.assertEquals(1, 2);
     }
 
     @Test
-    public void SimpleTest_3() throws AssertNotEqualsError {
+    public void SimpleTest_3() {
         int number = 1;
         Assert.assertEquals(number, number);
     }
 
     @Ignore
     @Test
-    public void SimpleTest_4() throws AssertNotEqualsError {
+    public void SimpleTest_4() {
         int number = 2;
         Assert.assertEquals(number, number);
     }
 
     @Test(expectedException = IndexOutOfBoundsException.class)
-    public void wrongExceptionTest() throws AssertNotTrueError {
+    public void wrongExceptionTest() {
         int error = 1/0;
         Assert.assertTrue(1 == 1);
     }

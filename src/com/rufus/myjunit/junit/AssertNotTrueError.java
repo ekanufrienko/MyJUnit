@@ -1,7 +1,7 @@
 package com.rufus.myjunit.junit;
 
 public class AssertNotTrueError extends AssertException {
-    public AssertNotTrueError(){
+    public AssertNotTrueError() {
         super();
     }
 }

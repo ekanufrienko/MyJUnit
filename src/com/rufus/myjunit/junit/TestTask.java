@@ -3,20 +3,20 @@ package com.rufus.myjunit.junit;
 import java.lang.reflect.Method;
 
 public class TestTask {
-    private int classNumber;
+    private TestClass testClass;
     private Method testMethod;
     private String testResult;
     private Class<?> expectedException;
 
-    public TestTask(int classNumber, Method testMethod, Class<?> expectedException) {
-        this.classNumber = classNumber;
+    public TestTask(TestClass testClass, Method testMethod, Class<?> expectedException) {
+        this.testClass = testClass;
         this.testMethod = testMethod;
         this.testResult = null;
         this.expectedException = expectedException;
     }
 
-    public int getClassNumber() {
-        return classNumber;
+    public TestClass getTestClass() {
+        return testClass;
     }
 
     public Method getTestMethod() {
