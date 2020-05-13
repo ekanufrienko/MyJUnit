@@ -14,7 +14,6 @@ public class TestThread extends Thread {
 
         while (true) {
 
-            System.out.println(currentThread().getName());
             synchronized (Main.testTasks) {
                 if (Main.testTasks.isEmpty()) {
                     if (Main.parseMethodsFinished) {
@@ -47,7 +46,7 @@ public class TestThread extends Thread {
                     beforeMethod.invoke(classObject);
                 }
             } catch (Throwable t) {
-                System.out.println("Before method didn't come test");
+                System.out.println("Class: " + classItem.getName() + "  Before Method     Error: After method throws " + t);
                 continue;
             }
 
@@ -84,7 +83,7 @@ public class TestThread extends Thread {
                     afterMethod.invoke(classObject);
                 }
             } catch (Throwable t) {
-                System.out.println("After method didn't come test");
+                System.out.println("Class: " + classItem.getName() + "  After Method     Error: After method throws " + t);
             }
         }
     }

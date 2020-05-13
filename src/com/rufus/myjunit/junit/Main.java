@@ -5,6 +5,7 @@ import java.util.*;
 
 /**
  * Исполняемый файл. Аналог JUnit библиотеки.
+ * В тестовом файле не должно быть больше одного метода с аннотацией @Before. Аналогично с @After.
  * Пример ввода команды запуска из командной строки: java -cp "MyJUnit.jar;"
  * myjunit.junit 3 com.rufus.myjunit.test.TestClass
  * где 3 - количество тредов, на которых запускается процесс.
@@ -43,6 +44,8 @@ public class Main {
      * @param className переданное имя класса.
      */
     public static void parseMethods(String className) {
+        boolean beforeMethodFound = false;
+        boolean afterMethodFound = false;
 
         TestClass testClass;
         try {
@@ -56,18 +59,24 @@ public class Main {
 
         for (Method method : methods) {
             if (method.getAnnotation(Before.class) != null) {
+                if (beforeMethodFound){
+                    System.out.println("Class: " + testClass + "   Error: Expected one @Before method");
+                }
                 testClass.setBeforeMethod(method);
-                continue;
-            }
-            if (method.getAnnotation(After.class) != null) {
+                beforeMethodFound = true;
+            } else if (method.getAnnotation(After.class) != null) {
+                if (afterMethodFound){
+                    System.out.println("Class: " + testClass + "   Error: Expected one @After method");
+                }
                 testClass.setAfterMethod(method);
+                afterMethodFound = true;
             }
         }
 
         for (Method method : methods) {
-            synchronized (testTasks) {
-                Test annotation = method.getAnnotation(Test.class);
-                if (annotation != null && method.getAnnotation(Ignore.class) == null) {
+            Test annotation = method.getAnnotation(Test.class);
+            if (annotation != null && method.getAnnotation(Ignore.class) == null) {
+                synchronized (testTasks) {
                     testTasks.add(new TestTask(testClass, method, annotation.expectedException()));
                 }
             }

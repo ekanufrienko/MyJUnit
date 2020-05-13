@@ -5,35 +5,35 @@ import com.rufus.myjunit.junit.*;
 public class TestClass {
 
     @Before
-    public void BeforeVoid() {
+    public void beforeTestFunction() {
         System.out.println("\"" + Thread.currentThread().getName() + "\" begin testing");
     }
 
     @Test(expectedException = ArithmeticException.class)
-    public void SimpleTest_0() {
+    public void expectedExceptionTest() {
         int error = 1/0;
         Assert.assertTrue(1 == 2);
     }
 
     @Test
-    public void SimpleTest_1() {
+    public void wrongAnswerCompareTest() {
         Assert.assertTrue(1 == 2);
     }
 
     @Test
-    public void SimpleTest_2() {
+    public void wrongAnswerEqualsTest() {
         Assert.assertEquals(1, 2);
     }
 
     @Test
-    public void SimpleTest_3() {
+    public void correctAnswerEqualsTest() {
         int number = 1;
         Assert.assertEquals(number, number);
     }
 
     @Ignore
     @Test
-    public void SimpleTest_4() {
+    public void ignoreAnnotationTest() {
         int number = 2;
         Assert.assertEquals(number, number);
     }
@@ -45,7 +45,7 @@ public class TestClass {
     }
 
     @After
-    public void AfterVoid() {
+    public void afterTestFunction() {
         System.out.println("\"" + Thread.currentThread().getName() + "\" finished testing");
     }
 

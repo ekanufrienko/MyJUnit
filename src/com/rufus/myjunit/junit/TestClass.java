@@ -3,18 +3,14 @@ package com.rufus.myjunit.junit;
 import java.lang.reflect.Method;
 
 public class TestClass {
-    private Class<?> classItem;
+    private final Class<?> classItem;
     private Method afterMethod;
     private Method beforeMethod;
 
-    public void setClassItem(Class<?> classItem) {
+    public TestClass(Class<?> classItem) {
         this.classItem = classItem;
         this.afterMethod = null;
         this.beforeMethod = null;
-    }
-
-    public TestClass(Class<?> classItem) {
-        this.classItem = classItem;
     }
 
     public Class<?> getClassItem() {
